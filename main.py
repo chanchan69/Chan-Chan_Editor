@@ -75,7 +75,7 @@ if __name__ == '__main__':
   init()
   cyan = Fore.LIGHTCYAN_EX
   magenta = Fore.MAGENTA; Style.BRIGHT
-  anouncement = requests.get('https://pastebin.com/raw/WWbHA5EG')
+  anouncement = requests.get('https://pastebin.com/Gkk7maxm')
   sign = f'''{magenta}
                      ▄▀▄▄▄▄   ▄▀▀▄ ▄▄   ▄▀▀█▄   ▄▀▀▄ ▀▄  ▄▀▄▄▄▄   ▄▀▀▄ ▄▄   ▄▀▀█▄   ▄▀▀▄ ▀▄ 
                     █ █    ▌ █  █   ▄▀ ▐ ▄▀ ▀▄ █  █ █ █ █ █    ▌ █  █   ▄▀ ▐ ▄▀ ▀▄ █  █ █ █ 
