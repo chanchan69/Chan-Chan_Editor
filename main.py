@@ -43,6 +43,26 @@ class Main():
       outfile.write(f'{domain_user[0]}:{mail_pass_split[1]}')
     outfile.close()
 
+  def file_spliter(self, womboname, outfile, segments):
+    def file_len(fname):
+      with open(fname) as f:
+          for i, l in enumerate(f):
+              pass
+      return i + 1
+    lines_in_file = file_len(womboname)
+    lines_per_file = lines_in_file / segments
+    smallfile = None
+    with open(womboname) as bigfile:
+        for lineno, line in enumerate(bigfile):
+            if lineno % lines_per_file == 0:
+                if smallfile:
+                    smallfile.close()
+                small_filename = '{}{}'.format(lineno + lines_per_file, outfile)
+                smallfile = open(small_filename, "w")
+            smallfile.write(line)
+        if smallfile:
+            smallfile.close()
+
   def inputs(self):
       self.userinputfile = input(f'{cyan}[{magenta}1{cyan}] Combo File:{magenta} ')
       self.uoutput = input(f'{cyan}[{magenta}2{cyan}] Output File:{magenta} ')
@@ -70,12 +90,25 @@ class Main():
     elif user_input == '5':
       addtext = input(f'{cyan}[{magenta}3{cyan}] Text to Add:{magenta} ')
       self.add_text_before_line(self.uinput, self.uoutput, addtext)
+    
+    elif user_input == '6':
+      segments = int(input(f'{cyan}[{magenta}3{cyan}] How Many Files:{magenta} '))
+      self.file_spliter(self.userinputfile, self.uoutput, segments)
+
+    elif user_input == '7':
+      print(f'{cyan}Opening Link in Your Web Browser\n')
+      import webbrowser
+      new = 2
+      url = "https://discord.gg/f32CZay9r3"
+      webbrowser.open(url, new=new)
+      print(f'{Fore.GREEN}Done opening link')
+      print(f'{Fore.CYAN}')
 
 if __name__ == '__main__':
   init()
   cyan = Fore.LIGHTCYAN_EX
   magenta = Fore.MAGENTA; Style.BRIGHT
-  anouncement = requests.get('https://pastebin.com/Gkk7maxm')
+  anouncement = requests.get('https://pastebin.com/raw/Gkk7maxm')
   sign = f'''{magenta}
                      ▄▀▄▄▄▄   ▄▀▀▄ ▄▄   ▄▀▀█▄   ▄▀▀▄ ▀▄  ▄▀▄▄▄▄   ▄▀▀▄ ▄▄   ▄▀▀█▄   ▄▀▀▄ ▀▄ 
                     █ █    ▌ █  █   ▄▀ ▐ ▄▀ ▀▄ █  █ █ █ █ █    ▌ █  █   ▄▀ ▐ ▄▀ ▀▄ █  █ █ █ 
@@ -93,6 +126,8 @@ if __name__ == '__main__':
 [{magenta}2{cyan}] Remove Duplicate Lines
 [{magenta}3{cyan}] Email:Pass to User:Pass
 [{magenta}4{cyan}] Add Text After Lines
-[{magenta}5{cyan}] Add Text Before Lines{magenta}
+[{magenta}5{cyan}] Add Text Before Lines
+[{magenta}6{cyan}] File Splitter
+[{magenta}7{cyan}] Join the Discord{magenta}
   ''')
   Main()
