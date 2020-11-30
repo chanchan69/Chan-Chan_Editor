@@ -12,5 +12,6 @@ Add Text After Lines
 
 Add Text Before Lines
 
+File Splitter
 
 Discord for Support: https://discord.gg/f32CZay9r3
