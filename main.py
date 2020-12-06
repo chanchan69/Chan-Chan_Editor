@@ -1,6 +1,9 @@
 import requests
 from colorama import Fore, Style, init
 from os import system
+import time
+import random
+from ctypes import windll
 class Main():
   def __init__(self):
     self.start()
@@ -9,6 +12,13 @@ class Main():
     outfile = open(outfile, "w+")
     for line in wombo:
       if '@' and ':' and '.' in line:
+        outfile.write(line)
+    outfile.close()
+
+  def remove_bad_proxy_lines(self, wombo, outfile):
+    outfile = open(outfile, "w+")
+    for line in wombo:
+      if '.' and ':' in line:
         outfile.write(line)
     outfile.close()
 
@@ -63,39 +73,60 @@ class Main():
         if smallfile:
             smallfile.close()
 
+  def combo_editor(self, wombo, outfile):
+    outfile = open(outfile, "w+")
+    for line in wombo:
+      try:
+        mail_pass_split = line.split(':')
+        password = mail_pass_split[1].rstrip("\n")
+        editedpasswordlist = [f'@{password}', f'!{password}', f'#{password}', f'%{password}', f'123{password}', f'{password}123', f'?{password}', f'69{password}', f'{password}69', f'?{password}', '123Password', 'Password123', 'password123', '!password123']
+        editedpassword = random.choice(editedpasswordlist)
+        email = mail_pass_split[0].rstrip("\n")
+        outfile.write('{}:{}\n'.format(email, editedpassword))
+      except:
+        pass
+
   def inputs(self):
       self.userinputfile = input(f'{cyan}[{magenta}1{cyan}] Combo File:{magenta} ')
       self.uoutput = input(f'{cyan}[{magenta}2{cyan}] Output File:{magenta} ')
-      self.uinput = open(self.userinputfile, 'r+')
+      self.uinput = open(self.userinputfile, 'r+', errors='ignore')
 
   def start(self):
     print(sign)
     print(main_menu)
-    user_input = input(f'{cyan}>{magenta} ')
+    user_input = input(f'> ')
     system('cls')
+    print(sign)
+    print(f'{magenta} > {cyan}{anouncement.text}{magenta} <\n\n')
     self.inputs()
     if user_input == '1':
       self.remove_bad_lines(self.uinput, self.uoutput)
 
     elif user_input == '2':
-      self.remove_dupe_lines(self.uinput, self.uoutput)
+      self.remove_bad_proxy_lines(self.uinput, self.uoutput)
 
     elif user_input == '3':
-      self.email_to_user(self.uinput, self.uoutput)
+      self.remove_dupe_lines(self.uinput, self.uoutput)
 
     elif user_input == '4':
+      self.combo_editor(self.uinput, self.uoutput)
+
+    elif user_input == '5':
+      self.email_to_user(self.uinput, self.uoutput)
+
+    elif user_input == '6':
       addtext = input(f'{cyan}[{magenta}3{cyan}] Text to Add:{magenta} ')
       self.add_text_after_line(self.uinput, self.uoutput, addtext)
 
-    elif user_input == '5':
+    elif user_input == '7':
       addtext = input(f'{cyan}[{magenta}3{cyan}] Text to Add:{magenta} ')
       self.add_text_before_line(self.uinput, self.uoutput, addtext)
     
-    elif user_input == '6':
+    elif user_input == '8':
       segments = int(input(f'{cyan}[{magenta}3{cyan}] How Many Files:{magenta} '))
       self.file_spliter(self.userinputfile, self.uoutput, segments)
 
-    elif user_input == '7':
+    elif user_input == '9':
       print(f'{cyan}Opening Link in Your Web Browser\n')
       import webbrowser
       new = 2
@@ -105,6 +136,14 @@ class Main():
       print(f'{Fore.CYAN}')
 
 if __name__ == '__main__':
+  version = '1.1'
+  windll.kernel32.SetConsoleTitleW(f'Chan-Chan Editor {version} | by SirChanChan | Main Menu')
+  version1 = requests.get('https://pastebin.com/raw/g8nE8B7u').text
+  if version == version1:
+      pass
+  else:
+      print(f"{Fore.LIGHTRED_EX}Your version is outdated \nCurrent: {version1}{Fore.RESET}")
+      time.sleep(3)
   init()
   cyan = Fore.LIGHTCYAN_EX
   magenta = Fore.MAGENTA; Style.BRIGHT
@@ -122,12 +161,14 @@ if __name__ == '__main__':
 {magenta} > {cyan}{anouncement.text}{magenta} <
 {magenta} > {cyan}Select an Option From Below{magenta} < {cyan}
 
-{cyan}[{magenta}1{cyan}] Remove Bad Lines
-[{magenta}2{cyan}] Remove Duplicate Lines
-[{magenta}3{cyan}] Email:Pass to User:Pass
-[{magenta}4{cyan}] Add Text After Lines
-[{magenta}5{cyan}] Add Text Before Lines
-[{magenta}6{cyan}] File Splitter
-[{magenta}7{cyan}] Join the Discord{magenta}
+{cyan}[{magenta}1{cyan}] Remove Bad Combo Lines
+[{magenta}2{cyan}] Remove Bad Proxy Lines
+[{magenta}3{cyan}] Remove Duplicate Lines
+[{magenta}4{cyan}] Combo Edit
+[{magenta}5{cyan}] Email:Pass to User:Pass
+[{magenta}6{cyan}] Add Text After Lines
+[{magenta}7{cyan}] Add Text Before Lines
+[{magenta}8{cyan}] File Splitter
+[{magenta}9{cyan}] Join the Discord{magenta}
   ''')
   Main()
