@@ -14,4 +14,6 @@ Add Text Before Lines
 
 File Splitter
 
+Paid Proxy format changer
+
 Discord for Support: https://discord.gg/f32CZay9r3
