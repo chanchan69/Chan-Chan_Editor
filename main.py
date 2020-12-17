@@ -85,7 +85,20 @@ class Main():
         outfile.write('{}:{}\n'.format(email, editedpassword))
       except:
         pass
-
+  
+  def authproxy_converter(self, wombo, outfile):
+    outfile = open(outfile, "w+")
+    for line in wombo:
+      if '@' in line:
+        cleanline = line.rstrip("\n")
+        info_split = cleanline.split('@')
+        ipport = info_split[1].rstrip("@")
+        #in User:pass@Ip:port
+        #outIP:port:user:pass
+        outfile.write('{}:{}\n'.format(ipport, info_split[0]))
+      else:
+        pass
+  
   def inputs(self):
       self.userinputfile = input(f'{cyan}[{magenta}1{cyan}] Combo File:{magenta} ')
       self.uoutput = input(f'{cyan}[{magenta}2{cyan}] Output File:{magenta} ')
@@ -127,6 +140,9 @@ class Main():
       self.file_spliter(self.userinputfile, self.uoutput, segments)
 
     elif user_input == '9':
+      self.authproxy_converter(self.uinput, self.uoutput)
+
+    elif user_input == '10':
       print(f'{cyan}Opening Link in Your Web Browser\n')
       import webbrowser
       new = 2
@@ -136,7 +152,7 @@ class Main():
       print(f'{Fore.CYAN}')
 
 if __name__ == '__main__':
-  version = '1.1'
+  version = '1.2'
   windll.kernel32.SetConsoleTitleW(f'Chan-Chan Editor {version} | by SirChanChan | Main Menu')
   version1 = requests.get('https://pastebin.com/raw/g8nE8B7u').text
   if version == version1:
@@ -164,11 +180,12 @@ if __name__ == '__main__':
 {cyan}[{magenta}1{cyan}] Remove Bad Combo Lines
 [{magenta}2{cyan}] Remove Bad Proxy Lines
 [{magenta}3{cyan}] Remove Duplicate Lines
-[{magenta}4{cyan}] Combo Edit
-[{magenta}5{cyan}] Email:Pass to User:Pass
+[{magenta}4{cyan}] Combo Editor
+[{magenta}5{cyan}] Email:Pass -> User:Pass
 [{magenta}6{cyan}] Add Text After Lines
 [{magenta}7{cyan}] Add Text Before Lines
 [{magenta}8{cyan}] File Splitter
-[{magenta}9{cyan}] Join the Discord{magenta}
+[{magenta}9{cyan}] User:Pass@Ip:Port -> Ip:Port:User:Pass
+[{magenta}10{cyan}] Join the Discord{magenta}
   ''')
   Main()
